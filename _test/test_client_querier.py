@@ -3,11 +3,9 @@ import time
 from web3 import Web3
 
 from base.mappers.eth_call_balance_of_mapper import EthCallBalanceOf
-from base.mappers.get_balance_mapper import GetBalance
 from client.client_querier import ClientQuerier
 
 url = "https://speedy-nodes-nyc.moralis.io/51ed809fc830640c534fe746/bsc/mainnet/archive"
-url = "http://128.199.149.45:3005"
 client_querier = ClientQuerier(provider_url=url)
 
 contract_address = Web3.toChecksumAddress('0x334b3ecb4dca3593bccc3c7ebd1a1c1d1780fbf1')
