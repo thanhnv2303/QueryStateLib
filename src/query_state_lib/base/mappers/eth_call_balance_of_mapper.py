@@ -1,8 +1,8 @@
 from typing import List
 
-from base.mappers.eth_call_mapper import EthCall, generate_eth_call_json_rpc
-from base.utils.decoder import decode_eth_call_balance_of
-from base.utils.encoder import encode_eth_call_balance_of
+from query_state_lib.base.mappers.eth_call_mapper import EthCall, generate_eth_call_json_rpc
+from query_state_lib.base.utils.decoder import decode_eth_call_balance_of
+from query_state_lib.base.utils.encoder import encode_eth_call_balance_of
 
 
 class EthCallBalanceOf(EthCall):

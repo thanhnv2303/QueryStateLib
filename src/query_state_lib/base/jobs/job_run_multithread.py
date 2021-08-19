@@ -19,34 +19,47 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+import logging
+
+from query_state_lib.base.executors.batch_work_executor import BatchWorkExecutor
+from query_state_lib.base.jobs.base_job import BaseJob
+
+logger = logging.getLogger(__name__)
 
 
-from urllib.parse import urlparse
+class MultiThreadsJob(BaseJob):
+    def __init__(
+            self,
+            work_iterable,
+            batch_size,
+            item_exporter,
+            max_workers):
+        self.item_exporter = item_exporter
+        self.work_iterable = work_iterable
+        self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers)
 
-from web3 import Web3
+        self._dict_cache = []
 
-from base.providers.ipc import BatchIPCProvider
-from base.providers.rpc import BatchHTTPProvider
+    def _start(self):
+        self.item_exporter.open()
 
-DEFAULT_TIMEOUT = 60
+    def _export(self):
+        self.batch_work_executor.execute(
+            self.work_iterable,
+            self._export_batch,
+            total_items=len(self.work_iterable)
+        )
 
+    def _export_batch(self, work_data):
+        # handler work
+        pass
 
-def get_provider_from_uri(uri_string, timeout=DEFAULT_TIMEOUT, batch=False):
-    uri = urlparse(uri_string)
-    if uri.scheme == 'file':
-        if batch:
-            return BatchIPCProvider(uri.path, timeout=timeout)
-        else:
-            return Web3.IPCProvider(uri.path, timeout=timeout)
-    elif uri.scheme == 'http' or uri.scheme == 'https':
-        request_kwargs = {'timeout': timeout}
-        if batch:
-            return BatchHTTPProvider(uri_string, request_kwargs=request_kwargs)
-        else:
-            return Web3.HTTPProvider(uri_string, request_kwargs=request_kwargs)
-    elif uri.scheme == 'wss':
-        request_kwargs = {'timeout': timeout}
+    def _end(self):
+        self.batch_work_executor.shutdown()
+        self.item_exporter.close()
 
-        return Web3.WebsocketProvider(uri_string)
-    else:
-        raise ValueError('Unknown uri scheme {}'.format(uri_string))
+    def get_cache(self):
+        return self._dict_cache
+
+    def clean_cache(self):
+        self._dict_cache = []

@@ -19,47 +19,45 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+import json
 import logging
 
-from base.executors.batch_work_executor import BatchWorkExecutor
-from base.jobs.base_job import BaseJob
+from query_state_lib.base.executors.batch_work_executor import BatchWorkExecutor
+from query_state_lib.base.jobs.base_job import BaseJob
 
 logger = logging.getLogger(__name__)
 
 
-class MultiThreadsJob(BaseJob):
+class SentBatchRequestJob(BaseJob):
     def __init__(
             self,
-            work_iterable,
-            batch_size,
-            item_exporter,
-            max_workers):
-        self.item_exporter = item_exporter
-        self.work_iterable = work_iterable
+            request,
+            batch_provider,
+            batch_size=2000,
+            max_workers=5):
+        self.request = request
         self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers)
-
-        self._dict_cache = []
+        self.batch_provider = batch_provider
+        self.response = []
 
     def _start(self):
-        self.item_exporter.open()
+        pass
 
     def _export(self):
         self.batch_work_executor.execute(
-            self.work_iterable,
+            self.request,
             self._export_batch,
-            total_items=len(self.work_iterable)
+            total_items=len(self.request)
         )
 
-    def _export_batch(self, work_data):
-        # handler work
-        pass
+    def _export_batch(self, batched_request):
+        self.response += self.batch_provider.make_batch_request(json.dumps(batched_request))
 
     def _end(self):
         self.batch_work_executor.shutdown()
-        self.item_exporter.close()
 
-    def get_cache(self):
-        return self._dict_cache
+    def get_response(self):
+        return self.response
 
     def clean_cache(self):
-        self._dict_cache = []
+        self.response = []

@@ -24,7 +24,7 @@ import logging
 from datetime import datetime
 
 # Thread safe progress logger.
-from base.executors.utils.atomic_counter import AtomicCounter
+from query_state_lib.base.executors.utils.atomic_counter import AtomicCounter
 
 
 class ProgressLogger:

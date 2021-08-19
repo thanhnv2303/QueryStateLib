@@ -2,8 +2,8 @@ import time
 
 from web3 import Web3
 
-from base.mappers.eth_call_balance_of_mapper import EthCallBalanceOf
-from client.client_querier import ClientQuerier
+from query_state_lib.base.mappers.eth_call_balance_of_mapper import EthCallBalanceOf
+from query_state_lib.client.client_querier import ClientQuerier
 
 url = "https://speedy-nodes-nyc.moralis.io/51ed809fc830640c534fe746/bsc/mainnet/archive"
 client_querier = ClientQuerier(provider_url=url)

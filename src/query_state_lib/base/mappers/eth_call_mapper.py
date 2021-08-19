@@ -1,7 +1,7 @@
 from typing import List
 
-from base.mappers.eth_json_rpc_mapper import generate_json_rpc, EthJsonRpc
-from base.utils.decoder import decode_eth_call_data
+from query_state_lib.base.mappers.eth_json_rpc_mapper import generate_json_rpc, EthJsonRpc
+from query_state_lib.base.utils.decoder import decode_eth_call_data
 
 
 class EthCall(EthJsonRpc):

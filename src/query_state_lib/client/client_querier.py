@@ -2,12 +2,12 @@ from typing import List
 
 import requests
 
-from base.mappers.eth_call_balance_of_mapper import generate_eth_call_balance_of_json_rpc
-from base.mappers.eth_call_mapper import generate_eth_call_json_rpc
-from base.mappers.eth_json_rpc_mapper import EthJsonRpc, generate_eth_json_rpc
-from base.mappers.get_balance_mapper import generate_get_balance_json_rpc
-from base.providers.auto import get_provider_from_uri
-from jobs.sent_batch_request_job import SentBatchRequestJob
+from query_state_lib.base.mappers.eth_call_balance_of_mapper import generate_eth_call_balance_of_json_rpc
+from query_state_lib.base.mappers.eth_call_mapper import generate_eth_call_json_rpc
+from query_state_lib.base.mappers.eth_json_rpc_mapper import EthJsonRpc, generate_eth_json_rpc
+from query_state_lib.base.mappers.get_balance_mapper import generate_get_balance_json_rpc
+from query_state_lib.base.providers.auto import get_provider_from_uri
+from query_state_lib.jobs.sent_batch_request_job import SentBatchRequestJob
 
 
 def _sent_batch(list_json_rpc: List[EthJsonRpc], func_sent_handler):
