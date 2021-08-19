@@ -31,6 +31,9 @@ for i in range(number_query):
 list_json_rpc = call_infos + get_balances
 
 data_result = client_querier.sent_batch_to_provider(list_json_rpc)
+"""
+data result is a dict with key is id of EthJsonRpc and value is object EthJsonRpc with result
+"""
 end = time.time()
 
 print(f"finish after {end - start}s")
