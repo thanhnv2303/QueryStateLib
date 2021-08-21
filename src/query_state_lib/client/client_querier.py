@@ -59,10 +59,10 @@ class ClientQuerier:
         :return:
         """
 
-        url = self.provider_url
+        url = self.provider_url + "/batch-query"
 
         def sent_batch_to_state_querier_server(request):
-            data = {"request": request}
+            data = {"batch_request": request}
             res = requests.post(url, data=data)
 
             return res.json().get("response")
