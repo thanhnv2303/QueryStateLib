@@ -31,8 +31,8 @@ for i in range(number_query):
 # list_json_rpc = []
 list_json_rpc = call_infos + get_balances
 
-# data_result = client_querier.sent_batch_to_provider(list_json_rpc)
-data_result = client_querier.sent_batch_to_state_querier(list_json_rpc)
+data_result = client_querier.sent_batch_to_provider(list_json_rpc)
+# data_result = client_querier.sent_batch_to_state_querier(list_json_rpc)
 """
 data result is a dict with key is id of EthJsonRpc and value is object EthJsonRpc with result
 """
