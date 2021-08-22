@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="QueryStateLib",
-    version="0.0.4",
+    version="0.0.43",
     author="LinLin",
     author_email="nguyenthanh2303@gmail.com",
     description="",
@@ -23,4 +23,8 @@ setuptools.setup(
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
+    install_requires=[
+        'web3==5.21.0',
+        'requests==2.26.0',
+    ]
 )

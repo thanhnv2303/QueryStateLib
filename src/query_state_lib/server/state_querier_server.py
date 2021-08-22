@@ -37,12 +37,13 @@ class StateQuerierServer:
         batch_request = get_batch_request(json_request)
         return list(divide_chunks(batch_request, self.batch_size))
 
-    def handle_batch_request(self, request, process_func):
+    def handle_batch_request(self, request_json, process_func):
         try:
-            job = HandlerBatchRequestJob(request, process_func, self.batch_size, self.max_workers)
+            request_data = get_batch_request(request_json)
+            job = HandlerBatchRequestJob(request_data, process_func, self.batch_size, self.max_workers)
             job.run()
             response = job.get_response()
-            return response
+            return {"response": response}
         except Exception as e:
             self.logger.warning(f"err when handle batch request {e}")
             return None

@@ -66,8 +66,9 @@ class ClientQuerier:
                 "request": request,
                 "batch_request": True
             }
-            res = requests.post(url, data=data)
-
+            res = requests.post(url, json=data)
+            if res.status_code != 200:
+                raise Exception(f"provider {self.provider_url} not support batch-query api")
             return res.json().get("response")
 
         sent_handler = sent_batch_to_state_querier_server
