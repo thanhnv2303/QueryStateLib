@@ -62,7 +62,10 @@ class ClientQuerier:
         url = self.provider_url + "/batch-query"
 
         def sent_batch_to_state_querier_server(request):
-            data = {"batch_request": request}
+            data = {
+                "request": request,
+                "batch_request": True
+            }
             res = requests.post(url, data=data)
 
             return res.json().get("response")
