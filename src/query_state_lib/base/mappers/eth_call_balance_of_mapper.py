@@ -15,6 +15,9 @@ class EthCallBalanceOf(EthCall):
         self.result = decode_eth_call_balance_of(result)
         return self.result
 
+    def decode_result(self):
+        return self.result
+
 
 def generate_eth_call_balance_of_json_rpc(call_infos: List[EthCallBalanceOf]):
     return generate_eth_call_json_rpc(call_infos)
