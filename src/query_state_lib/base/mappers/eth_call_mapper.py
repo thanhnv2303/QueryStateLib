@@ -26,8 +26,10 @@ class EthCall(EthJsonRpc):
             raise Exception("Have to set abi before decode eth call result")
         if not self.fn_name:
             raise Exception("Have to set function name (fn_name) before decode eth call result")
+        if self.decoded:
+            return self.result
         self.result = decode_eth_call_data(self.abi, self.fn_name, self.result)
-
+        self.decoded = True
         return self.result
 
 
