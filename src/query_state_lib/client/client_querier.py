@@ -40,7 +40,7 @@ def _sent_batch(list_json_rpc: List[EthJsonRpc], func_sent_handler):
         request += generate_json_rpc_from_type(type, type_dict_list[type])
 
     response = func_sent_handler(request)
-
+    check_response(response)
     for response_item in response:
         id = response_item.get("id")
         result = response_item.get("result")
@@ -59,6 +59,7 @@ def check_response(response):
         raise Exception(f"""
         Response data err 
         Request {id} - err {err}
+        ...
         Request {id2}- err {err2}
         """)
 
