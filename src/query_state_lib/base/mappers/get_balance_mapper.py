@@ -14,6 +14,9 @@ class GetBalance(EthJsonRpc):
         self.result = None
 
     def set_result(self, result):
+        if not result:
+            self.result = 0
+            return result
         self.result = decode_eth_get_balance(result)
         return self.result
 

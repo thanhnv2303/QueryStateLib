@@ -40,11 +40,27 @@ def _sent_batch(list_json_rpc: List[EthJsonRpc], func_sent_handler):
         request += generate_json_rpc_from_type(type, type_dict_list[type])
 
     response = func_sent_handler(request)
+
     for response_item in response:
         id = response_item.get("id")
         result = response_item.get("result")
         dict_eth_json_rpc[id].set_result(result)
     return dict_eth_json_rpc
+
+
+def check_response(response):
+    res_start = response[0]
+    id = res_start.get("id")
+    err = res_start.get("error")
+    res_end = response[-1]
+    id2 = res_end.get("id")
+    err2 = res_end.get("error")
+    if res_start.get("error") and res_end.get("error"):
+        raise Exception(f"""
+        Response data err 
+        Request {id} - err {err}
+        Request {id2}- err {err2}
+        """)
 
 
 class ClientQuerier:
