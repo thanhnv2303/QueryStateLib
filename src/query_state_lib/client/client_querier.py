@@ -10,7 +10,7 @@ from query_state_lib.base.providers.auto import get_provider_from_uri
 from query_state_lib.jobs.sent_batch_request_job import SentBatchRequestJob
 
 
-def _sent_batch(list_json_rpc: List[EthJsonRpc], func_sent_handler):
+def _sent_batch(list_json_rpc: List[EthJsonRpc], func_sent_handler, err_list=[]):
     """
 
     :param list_json_rpc:
@@ -25,7 +25,8 @@ def _sent_batch(list_json_rpc: List[EthJsonRpc], func_sent_handler):
 
     :return:
     """
-
+    if not list_json_rpc:
+        return dict()
     dict_eth_json_rpc = dict()
     type_dict_list = dict()
     for json_rpc in list_json_rpc:
@@ -45,6 +46,8 @@ def _sent_batch(list_json_rpc: List[EthJsonRpc], func_sent_handler):
         id = response_item.get("id")
         result = response_item.get("result")
         dict_eth_json_rpc[id].set_result(result)
+        if not result:
+            err_list.append(dict_eth_json_rpc[id])
     return dict_eth_json_rpc
 
 
@@ -68,6 +71,7 @@ class ClientQuerier:
     def __init__(self, provider_url):
         self.provider_url = provider_url
         self.batch_provider = get_provider_from_uri(provider_url, batch=True)
+        self.recent_err = []
 
     def sent_batch_to_state_querier(self, list_json_rpc: List[EthJsonRpc]):
         """
@@ -89,7 +93,8 @@ class ClientQuerier:
             return res.json().get("response")
 
         sent_handler = sent_batch_to_state_querier_server
-        dict_eth_json_rpc = _sent_batch(list_json_rpc, sent_handler)
+        self.recent_err = []
+        dict_eth_json_rpc = _sent_batch(list_json_rpc, sent_handler, self.recent_err)
 
         return dict_eth_json_rpc
 
@@ -110,7 +115,8 @@ class ClientQuerier:
             return response
 
         sent_handler = sent_batch_direct
-        dict_eth_json_rpc = _sent_batch(list_json_rpc, sent_handler)
+        self.recent_err = []
+        dict_eth_json_rpc = _sent_batch(list_json_rpc, sent_handler, self.recent_err)
 
         return dict_eth_json_rpc
 
