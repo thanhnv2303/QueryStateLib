@@ -48,6 +48,7 @@ def _sent_batch(list_json_rpc: List[EthJsonRpc], func_sent_handler, err_list=[])
         dict_eth_json_rpc[id].set_result(result)
         if not result:
             err_list.append(dict_eth_json_rpc[id])
+            dict_eth_json_rpc[id].error = response_item.get("error")
     return dict_eth_json_rpc
 
 

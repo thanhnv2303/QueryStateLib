@@ -1,4 +1,3 @@
-import logging
 from typing import List
 
 from query_state_lib.base.mappers.eth_call_mapper import EthCall, generate_eth_call_json_rpc
@@ -17,7 +16,7 @@ class EthCallBalanceOf(EthCall):
         try:
             self.result = decode_eth_call_balance_of(result)
         except Exception as e:
-            logging.warning(f"""
+            print(f"""
             EthCallBalanceOf set result err {e}
             EthCallBalanceOf  result : {result}
             EthCallBalanceOf id : {self.id}

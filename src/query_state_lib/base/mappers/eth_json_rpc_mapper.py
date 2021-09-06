@@ -9,6 +9,7 @@ class EthJsonRpc:
         self.params = params
         self.result = None
         self.decoded = False
+        self.error = None
 
     def set_result(self, result):
         self.result = result
