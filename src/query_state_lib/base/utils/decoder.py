@@ -1,5 +1,4 @@
 from web3 import Web3
-from web3._utils.contracts import find_matching_fn_abi
 
 w3 = Web3()
 
@@ -21,8 +20,13 @@ def decode_output_rpc(types, result):
 
 
 def decode_eth_call_data(abi, fn_name, result):
-    fn_abi = find_matching_fn_abi(fn_identifier=fn_name, abi_codec=w3.codec, abi=abi,
-                                  args=["0x334b3ecb4dca3593bccc3c7ebd1a1c1d1780fbf1"])
+    fn_abi = None
+    for _fn_abi in abi:
+        if _fn_abi.get("name") == fn_name:
+            fn_abi = _fn_abi
+            break
+    if not fn_abi:
+        raise Exception(f"function {fn_name} not found in abi")
     outputs = fn_abi.get("outputs")
     types = []
     for output in outputs:
