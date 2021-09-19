@@ -30,9 +30,26 @@ def decode_eth_call_data(abi, fn_name, result):
     outputs = fn_abi.get("outputs")
     types = []
     for output in outputs:
-        types.append(output.get("type"))
+        if output.get("type") == "tuple":
+            _tuple_type = _append_output_tuple_type(output)
+            types.append(_tuple_type)
+        else:
+            types.append(output.get("type"))
 
     return decode_output_rpc(types, result)
+
+
+def _append_output_tuple_type(output):
+    components = output.get("components")
+    _tuple_type = '('
+    for component in components:
+        _type_str = component.get('type')
+        if _type_str == "tuple":
+            _tuple_type += _append_output_tuple_type(component) + ","
+        else:
+            _tuple_type += _type_str + ","
+    _tuple_type = _tuple_type[0:-1]+")"
+    return _tuple_type
 
 
 def decode_eth_call_balance_of(result):
