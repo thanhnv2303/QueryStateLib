@@ -34,10 +34,13 @@ class SentBatchRequestJob(BaseJob):
             request,
             batch_provider,
             batch_size=2000,
-            max_workers=5):
+            max_workers=5,
+            sleep_time_retries=10,
+    ):
         self.request = request
-        self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers)
+        self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers, sleep=sleep_time_retries)
         self.batch_provider = batch_provider
+        self.sleep_time_retries = sleep_time_retries
         self.response = []
 
     def _start(self):

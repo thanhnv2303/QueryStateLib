@@ -9,6 +9,9 @@ from query_state_lib.base.utils.encoder import encode_eth_call_data
 from query_state_lib.client.client_querier import ClientQuerier
 
 url = "https://speedy-nodes-nyc.moralis.io/51ed809fc830640c534fe746/bsc/mainnet/archive"
+
+web3 = Web3(Web3.HTTPProvider(url))
+
 client_querier = ClientQuerier(provider_url=url)
 
 contract_address = Web3.toChecksumAddress('0x75DE5f7c91a89C16714017c7443eca20C7a8c295')
@@ -26,7 +29,6 @@ for i in range(number_query):
     call1 = EthCall(to=contract_address, data=data, block_number=block_number, abi=LENDING_POOL_ABI,
                     fn_name="getReservesList", id=i)
     call_infos.append(call1)
-
 
 # list_json_rpc = []
 list_json_rpc = call_infos + get_balances
