@@ -6,6 +6,7 @@ from query_state_lib.base.mappers.eth_call_balance_of_mapper import EthCallBalan
 from query_state_lib.client.client_querier import ClientQuerier
 
 url = "https://speedy-nodes-nyc.moralis.io/51ed809fc830640c534fe746/bsc/mainnet/archive"
+url = "https://speedy-nodes-nyc.moralis.io/51ed809fc830640c534fe746/bsc/mainnet/archive"
 # url = "http://localhost:1337"
 client_querier = ClientQuerier(provider_url=url)
 
@@ -22,7 +23,7 @@ call_infos = []
 get_balances = []
 start = time.time()
 for i in range(number_query):
-    call1 = EthCallBalanceOf(contract_address, address, block_number + i, id=i)
+    call1 = EthCallBalanceOf(contract_address, address, block_number + i, id=f"{address}_{block_number+i}")
     call_infos.append(call1)
 
     # get_balance = GetBalance(address, block_number + i, id=number_query + i)
@@ -32,6 +33,9 @@ for i in range(number_query):
 list_json_rpc = call_infos + get_balances
 
 data_result = client_querier.sent_batch_to_provider(list_json_rpc, batch_size=2000, max_workers=4)
+for key,data in data_result.items():
+    balance = data.decode_result()
+    print(f"{key} - balance :{balance}")
 # data_result = client_querier.sent_batch_to_state_querier(list_json_rpc)
 """
 data result is a dict with key is id of EthJsonRpc and value is object EthJsonRpc with result
