@@ -36,12 +36,14 @@ class SentBatchRequestJob(BaseJob):
             batch_size=2000,
             max_workers=5,
             sleep_time_retries=10,
+            timeout=120
     ):
         self.request = request
         self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers, sleep=sleep_time_retries)
         self.batch_provider = batch_provider
         self.sleep_time_retries = sleep_time_retries
         self.response = []
+        self.timeout = timeout
 
     def _start(self):
         pass
@@ -54,7 +56,7 @@ class SentBatchRequestJob(BaseJob):
         )
 
     def _export_batch(self, batched_request):
-        self.response += self.batch_provider.make_batch_request(json.dumps(batched_request))
+        self.response += self.batch_provider.make_batch_request(json.dumps(batched_request), timeout=self.timeout)
 
     def _end(self):
         self.batch_work_executor.shutdown()

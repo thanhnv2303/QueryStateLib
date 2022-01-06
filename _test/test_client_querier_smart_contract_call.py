@@ -33,7 +33,7 @@ for i in range(number_query):
 # list_json_rpc = []
 list_json_rpc = call_infos + get_balances
 
-data_result = client_querier.sent_batch_to_provider(list_json_rpc, batch_size=2000, max_workers=4)
+data_result = client_querier.sent_batch_to_provider(list_json_rpc, batch_size=2000, max_workers=4,timeout=200)
 
 result = data_result[1].decode_result()
 """
