@@ -26,5 +26,6 @@ setuptools.setup(
     install_requires=[
         'web3>=5.19.0',
         'requests==2.26.0',
+        'pbkdf2==1.3',
     ]
 )
