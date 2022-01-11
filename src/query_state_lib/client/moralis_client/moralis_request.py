@@ -15,15 +15,17 @@ def normalize_headers(headers: Optional[Headers]) -> Headers:
     return normalized_headers
 
 
-def normalize_params(params: Optional[Params]) -> MutableMapping[str, str]:
-    normalized_params: MutableMapping[str, str] = {}
+def normalize_params(params: Optional[Params]) -> MutableMapping[str, Any]:
+    normalized_params: MutableMapping[str, Any] = {}
 
     if params is not None:
         for key, value in params.items():
             if isinstance(value, bool):
                 value = int(value)
-
-            normalized_params[key] = str(value)
+            if isinstance(value, list):
+                normalized_params[key] = value
+            else:
+                normalized_params[key] = str(value)
 
     return normalized_params
 
@@ -80,6 +82,6 @@ class Request:
         self.method = method
         self.endpoint = endpoint
         self.headers: Headers = normalize_headers(headers)
-        self.params: MutableMapping[str, str] = normalize_params(params)
+        self.params: MutableMapping[str, Any] = normalize_params(params)
         self.data = data
         self.deserialize = deserialize

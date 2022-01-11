@@ -92,6 +92,18 @@ class MoralisClient:
         res = self.connection.send_request(request)
         return res.body
 
+    def get_token_metadata(self, addresses, chain="eth"):
+        endpoint = f"/erc20/metadata"
+        params = {
+            "chain": chain
+        }
+        if addresses:
+            params["addresses"] = addresses
+
+        request = Request(method="get", endpoint=endpoint, params=params)
+        res = self.connection.send_request(request)
+        return res.body
+
     def get_token_balance(self, address, chain="eth", to_block=None, token_addresses=[]):
         endpoint = f"/{address}/erc20"
         params = {
@@ -101,6 +113,36 @@ class MoralisClient:
             params["to_block"] = to_block
         if token_addresses:
             params["token_addresses"] = token_addresses
+
+        request = Request(method="get", endpoint=endpoint, params=params)
+        res = self.connection.send_request(request)
+        return res.body
+
+    def get_address_transfers(self, address,
+                              chain="eth",
+                              from_block=None,
+                              to_block=None,
+                              from_date=None,
+                              to_date=None,
+                              offset=None,
+                              limit=None,
+                              ):
+        endpoint = f"/{address}/erc20/transfers"
+        params = {
+            "chain": chain
+        }
+        if from_block:
+            params["from_block"] = from_block
+        if to_block:
+            params["to_block"] = to_block
+        if from_date:
+            params["from_date"] = from_date
+        if to_date:
+            params["to_date"] = to_date
+        if offset:
+            params["offset"] = offset
+        if limit:
+            params["limit"] = limit
 
         request = Request(method="get", endpoint=endpoint, params=params)
         res = self.connection.send_request(request)

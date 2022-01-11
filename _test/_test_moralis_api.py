@@ -2,9 +2,12 @@ from query_state_lib.client.moralis_client.client import MoralisClient
 from query_state_lib.client.moralis_client.examples import LIQUIDATE_EVENT
 
 if __name__ == '__main__':
-    x_api_keys = ["vCW7IgiEDAWfftnUxea8OcF6EWGiRdzFb1e7XyuQoecMUKOVEMGNB8LfAdoCS9dC",
-                  "lBJVBjSy5AyLi9tLjs1ysz6OIFlnOdmd1cvH6Q3ROSkRMJI8sxoJXtE9BbliKao4"]
+    x_api_keys = [
+        "vCW7IgiEDAWfftnUxea8OcF6EWGiRdzFb1e7XyuQoecMUKOVEMGNB8LfAdoCS9dC",
+        "lBJVBjSy5AyLi9tLjs1ysz6OIFlnOdmd1cvH6Q3ROSkRMJI8sxoJXtE9BbliKao4"
+    ]
     moralis_client = MoralisClient(x_api_keys)
+
     res = moralis_client.ping()
     print(res)
     print("Date to block")
@@ -19,9 +22,23 @@ if __name__ == '__main__':
     res = moralis_client.get_token_price(address=address, chain=chain)
     print(res)
 
+    print("Get token metadata")
+    chain = "bsc"
+    address = "0x0391bE54E72F7e001f6BBc331777710b4f2999Ef"
+    res = moralis_client.get_token_metadata(addresses=[address], chain=chain)
+    print(res)
+
     address = "0xACd7869C648CCB1b3478615e194aeb045A2e905f"
     to_block = 13936545
-    token_balance = moralis_client.get_token_balance(address, to_block=to_block)
+    token_balance = moralis_client.get_token_balance(address, to_block=to_block,
+                                                     token_addresses=["0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
+                                                                      "0x6bba316c48b49bd1eac44573c5c871ff02958469"])
+
+    print("Get token transfer")
+    chain = "eth"
+    address = "0x1ded0b564fbf539f925add9dea3c6fbd84d445fb"
+    res = moralis_client.get_address_transfers(address=address, chain=chain)
+    print(res)
 
     print(f"Token balances of address {address}")
     print(token_balance)
