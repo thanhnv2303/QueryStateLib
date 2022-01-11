@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="QueryStateLib",
-    version="1.0.0",
+    version="1.0.1",
     author="LinLin",
     author_email="nguyenthanh2303@gmail.com",
     description="",
