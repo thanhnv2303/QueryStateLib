@@ -1,6 +1,7 @@
 from typing import List
 
 import requests
+from query_state_lib.base.executors.batch_work_executor import RETRY_EXCEPTIONS
 
 from query_state_lib.base.mappers.eth_call_balance_of_mapper import generate_eth_call_balance_of_json_rpc
 from query_state_lib.base.mappers.eth_call_mapper import generate_eth_call_json_rpc
@@ -100,7 +101,8 @@ class ClientQuerier:
         return dict_eth_json_rpc
 
     def sent_batch_to_provider(self, list_json_rpc: List[EthJsonRpc], batch_size=2000, max_workers=8,
-                               sleep_time_retries=10,timeout=120):
+                               sleep_time_retries=10, timeout=120, max_retries=3,
+                               retry_exceptions=RETRY_EXCEPTIONS):
         """
 
         :param list_json_rpc:
@@ -111,7 +113,8 @@ class ClientQuerier:
 
         def sent_batch_direct(request):
             job = SentBatchRequestJob(request, batch_provider, batch_size=batch_size, max_workers=max_workers,
-                                      sleep_time_retries=sleep_time_retries,timeout=timeout)
+                                      sleep_time_retries=sleep_time_retries, timeout=timeout, max_retries=max_retries,
+                                      retry_exceptions=retry_exceptions, )
             job.run()
 
             response = job.get_response()

@@ -22,7 +22,7 @@
 import json
 import logging
 
-from query_state_lib.base.executors.batch_work_executor import BatchWorkExecutor
+from query_state_lib.base.executors.batch_work_executor import BatchWorkExecutor, RETRY_EXCEPTIONS
 from query_state_lib.base.jobs.base_job import BaseJob
 
 logger = logging.getLogger(__name__)
@@ -36,10 +36,13 @@ class SentBatchRequestJob(BaseJob):
             batch_size=2000,
             max_workers=5,
             sleep_time_retries=10,
-            timeout=120
+            timeout=120,
+            max_retries=3,
+            retry_exceptions=RETRY_EXCEPTIONS,
     ):
         self.request = request
-        self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers, sleep=sleep_time_retries)
+        self.batch_work_executor = BatchWorkExecutor(batch_size, max_workers, retry_exceptions=retry_exceptions,
+                                                     max_retries=max_retries, sleep=sleep_time_retries)
         self.batch_provider = batch_provider
         self.sleep_time_retries = sleep_time_retries
         self.response = []
