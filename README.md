@@ -8,5 +8,5 @@
 
 * [Example used](_test/test_client_querier.py)
 
-Github : https://github.com/thanhnv2303/QueryStateLib
+Github :https://github.com/TravaDataAnalysis/QueryStateLib
 

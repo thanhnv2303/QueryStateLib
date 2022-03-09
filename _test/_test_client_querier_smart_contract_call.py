@@ -9,6 +9,8 @@ from query_state_lib.base.utils.encoder import encode_eth_call_data
 from query_state_lib.client.client_querier import ClientQuerier
 
 url = "https://speedy-nodes-nyc.moralis.io/51ed809fc830640c534fe746/bsc/mainnet/archive"
+url = "https://nd-384-319-366.p2pify.com/7e49b20f53222da5f0b4517cd1da43ef"
+url = "https://nd-384-319-366.p2pify.com/7e49b20f53222da5f0b4517cd1da43ef"
 
 web3 = Web3(Web3.HTTPProvider(url))
 
@@ -18,7 +20,7 @@ contract_address = Web3.toChecksumAddress('0x75DE5f7c91a89C16714017c7443eca20C7a
 
 block_number = 11026478
 
-number_query = 5000
+number_query = 1
 
 call_infos = []
 
