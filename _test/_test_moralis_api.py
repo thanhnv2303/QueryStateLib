@@ -58,3 +58,8 @@ if __name__ == '__main__':
     event_abi = LIQUIDATE_EVENT
     res = moralis_client.get_address_event_by_topic(chain=chain, address=address, topic=topic, event_abi=event_abi)
     print(res)
+
+
+    def erc20_metadata(a,b,c,d):
+        return a
+    moralis_client.erc20_metadata = erc20_metadata
