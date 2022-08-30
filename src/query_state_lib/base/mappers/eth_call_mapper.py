@@ -5,7 +5,7 @@ from query_state_lib.base.utils.decoder import decode_eth_call_data
 
 
 class EthCall(EthJsonRpc):
-    def __init__(self, to="", data="", block_number=0, abi=None, fn_name=None, id=0):
+    def __init__(self, to="", data="", block_number="latest", abi=None, fn_name=None, id=0):
         super().__init__()
         self.type = "eth_call"
         self.to = to

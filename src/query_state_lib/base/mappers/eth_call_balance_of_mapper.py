@@ -6,7 +6,7 @@ from query_state_lib.base.utils.encoder import encode_eth_call_balance_of
 
 
 class EthCallBalanceOf(EthCall):
-    def __init__(self, contract_address="", address="", block_number="", id=0):
+    def __init__(self, contract_address="", address="", block_number="latest", id=0):
         data = encode_eth_call_balance_of(address)
         super().__init__(to=contract_address, data=data, block_number=block_number, id=id)
         self.type = "eth_call_balance_of"
