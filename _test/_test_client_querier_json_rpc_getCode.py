@@ -27,6 +27,7 @@ list_json_rpc = [call1, call2]
 data_result = client_querier.sent_batch_to_provider(list_json_rpc, batch_size=2000, max_workers=4, timeout=200)
 
 result = data_result[1].decode_result()
+print(result)
 """
 data result is a dict with key is id of EthJsonRpc and value is object EthJsonRpc with result
 """
