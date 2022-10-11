@@ -33,6 +33,9 @@ def decode_eth_call_data(abi, fn_name, result):
         if output.get("type") == "tuple":
             _tuple_type = _append_output_tuple_type(output)
             types.append(_tuple_type)
+        elif output.get("type") == "tuple[]":
+            _tuple_type = _append_output_tuple_type(output)
+            types.append(_tuple_type + "[]")
         else:
             types.append(output.get("type"))
 
@@ -48,7 +51,7 @@ def _append_output_tuple_type(output):
             _tuple_type += _append_output_tuple_type(component) + ","
         else:
             _tuple_type += _type_str + ","
-    _tuple_type = _tuple_type[0:-1]+")"
+    _tuple_type = _tuple_type[0:-1] + ")"
     return _tuple_type
 
 
